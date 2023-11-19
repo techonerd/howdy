@@ -38,15 +38,11 @@ def generate(frames, text_lines):
 		# Overlay the logo on top of the image
 		snap[logo_y:logo_y+57, logo_x:logo_x+180] = logo
 
-	# Go through each line
-	line_number = 0
-	for line in text_lines:
+	for line_number, line in enumerate(text_lines):
 		# Calculate how far the line should be from the top
 		padding_top = frame_height + 30 + (line_number * 20)
 		# Print the line onto the image
 		cv2.putText(snap, line, (30, padding_top), cv2.FONT_HERSHEY_SIMPLEX, .4, text_color, 0, cv2.LINE_AA)
-
-		line_number += 1
 
 	# Made sure a snapshot folder exist
 	if not os.path.exists(paths_factory.snapshots_dir_path()):

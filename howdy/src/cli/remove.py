@@ -74,14 +74,7 @@ if len(encodings) == 1:
 	os.remove(paths_factory.user_model_path(user))
 	print(_("Removed last model, howdy disabled for user"))
 else:
-	# A place holder to contain the encodings that will remain
-	new_encodings = []
-
-	# Loop though all encodings and only add those that don't need to be removed
-	for enc in encodings:
-		if str(enc["id"]) != id:
-			new_encodings.append(enc)
-
+	new_encodings = [enc for enc in encodings if str(enc["id"]) != id]
 	# Save this new set to disk
 	with open(enc_file, "w") as datafile:
 		json.dump(new_encodings, datafile)

@@ -130,11 +130,13 @@ class OnboardingWindow(gtk.Window):
 			time.sleep(.5)
 
 			# The full path to the device is the default name
-			device_path = "/dev/v4l/by-path/" + dev
+			device_path = f"/dev/v4l/by-path/{dev}"
 			device_name = dev
 
 			# Get the udevadm details to try to get a better name
-			udevadm = subprocess.check_output(["udevadm info -r --query=all -n " + device_path], shell=True).decode("utf-8")
+			udevadm = subprocess.check_output(
+				[f"udevadm info -r --query=all -n {device_path}"], shell=True
+			).decode("utf-8")
 
 			# Loop though udevadm to search for a better name
 			for line in udevadm.split("\n"):
@@ -200,21 +202,19 @@ class OnboardingWindow(gtk.Window):
 
 		selection = self.treeview.get_selection()
 		(listmodel, rowlist) = selection.get_selected_rows()
-		
+
 		if len(rowlist) != 1:
 			self.show_error(_("Error selecting camera"))
-   
-		device_path = listmodel.get_value(listmodel.get_iter(rowlist[0]), 2)
-		is_gray = listmodel.get_value(listmodel.get_iter(rowlist[0]), 3)
 
-		if is_gray:
+		device_path = listmodel.get_value(listmodel.get_iter(rowlist[0]), 2)
+		if is_gray := listmodel.get_value(listmodel.get_iter(rowlist[0]), 3):
 			# test if linux-enable-ir-emitter help should be displayed, 
 			# the user must click on the yes/no button which calls the method slide3_button_yes|no
 			self.capture = cv2.VideoCapture(device_path)
 			if not self.capture.isOpened():
 				self.show_error(_("The selected camera cannot be opened"), _("Try to select another one"))
 			self.capture.read()
-		else:  
+		else:
 			# skip, the selected camera is not infrared
 			self.go_next_slide()
 
@@ -236,7 +236,12 @@ class OnboardingWindow(gtk.Window):
 			self.show_error(_("Error selecting camera"))
 
 		device_path = listmodel.get_value(listmodel.get_iter(rowlist[0]), 2)
-		self.proc = subprocess.Popen("howdy set device_path " + device_path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+		self.proc = subprocess.Popen(
+			f"howdy set device_path {device_path}",
+			stdout=subprocess.PIPE,
+			stderr=subprocess.STDOUT,
+			shell=True,
+		)
 
 		self.window.set_focus(self.builder.get_object("scanbutton"))
 
@@ -288,7 +293,12 @@ class OnboardingWindow(gtk.Window):
 		elif radio_selected == "radiosecure":
 			radio_certanty = 2.2
 
-		self.proc = subprocess.Popen("howdy set certainty " + str(radio_certanty), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+		self.proc = subprocess.Popen(
+			f"howdy set certainty {radio_certanty}",
+			stdout=subprocess.PIPE,
+			stderr=subprocess.STDOUT,
+			shell=True,
+		)
 
 		self.nextbutton.hide()
 		self.builder.get_object("cancelbutton").hide()

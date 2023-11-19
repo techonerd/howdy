@@ -38,7 +38,7 @@ if not builtins.howdy_args.plain:
 # Loop through all encodings and print info about them
 for enc in encodings:
 	# Start with the id
-	print(str(enc["id"]), end="")
+	print(enc["id"], end="")
 
 	# Add comma for machine reading
 	if builtins.howdy_args.plain:

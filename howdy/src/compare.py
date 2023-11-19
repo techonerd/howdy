@@ -86,7 +86,7 @@ def send_to_ui(type, message):
 	# Only execute of the process started
 	if "gtk_proc" in globals():
 		# Format message so the ui can parse it
-		message = type + "=" + message + " \n"
+		message = f"{type}={message}" + " \n"
 
 		# Try to send the message to the auth ui, but it's okay if that fails
 		try:

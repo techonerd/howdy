@@ -155,32 +155,35 @@ v4l2_field = enum
 
 
 def V4L2_FIELD_HAS_TOP(field):
-    return (
-	field == V4L2_FIELD_TOP or
-	field == V4L2_FIELD_INTERLACED or
-	field == V4L2_FIELD_INTERLACED_TB or
-	field == V4L2_FIELD_INTERLACED_BT or
-	field == V4L2_FIELD_SEQ_TB or
-	field == V4L2_FIELD_SEQ_BT)
+    return field in [
+        V4L2_FIELD_TOP,
+        V4L2_FIELD_INTERLACED,
+        V4L2_FIELD_INTERLACED_TB,
+        V4L2_FIELD_INTERLACED_BT,
+        V4L2_FIELD_SEQ_TB,
+        V4L2_FIELD_SEQ_BT,
+    ]
 
 
 def V4L2_FIELD_HAS_BOTTOM(field):
-    return (
-        field == V4L2_FIELD_BOTTOM or
-        field == V4L2_FIELD_INTERLACED or
-        field == V4L2_FIELD_INTERLACED_TB or
-        field == V4L2_FIELD_INTERLACED_BT or
-        field == V4L2_FIELD_SEQ_TB or
-        field == V4L2_FIELD_SEQ_BT)
+    return field in [
+        V4L2_FIELD_BOTTOM,
+        V4L2_FIELD_INTERLACED,
+        V4L2_FIELD_INTERLACED_TB,
+        V4L2_FIELD_INTERLACED_BT,
+        V4L2_FIELD_SEQ_TB,
+        V4L2_FIELD_SEQ_BT,
+    ]
 
 
 def V4L2_FIELD_HAS_BOTH(field):
-    return (
-        field == V4L2_FIELD_INTERLACED or
-        field == V4L2_FIELD_INTERLACED_TB or
-        field == V4L2_FIELD_INTERLACED_BT or
-        field == V4L2_FIELD_SEQ_TB or
-        field == V4L2_FIELD_SEQ_BT)
+    return field in [
+        V4L2_FIELD_INTERLACED,
+        V4L2_FIELD_INTERLACED_TB,
+        V4L2_FIELD_INTERLACED_BT,
+        V4L2_FIELD_SEQ_TB,
+        V4L2_FIELD_SEQ_BT,
+    ]
 
 
 v4l2_buf_type = enum

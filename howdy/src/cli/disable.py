@@ -42,7 +42,13 @@ if out_value == config.get("core", "disabled", fallback=True):
 
 # Loop though the config file and only replace the line containing the disable config
 for line in fileinput.input([config_path], inplace=1):
-	print(line.replace("disabled = " + config.get("core", "disabled", fallback=True), "disabled = " + out_value), end="")
+	print(
+		line.replace(
+			"disabled = " + config.get("core", "disabled", fallback=True),
+			f"disabled = {out_value}",
+		),
+		end="",
+	)
 
 # Print what we just did
 if out_value == "true":

@@ -46,11 +46,10 @@ class pyv4l2_reader:
 	def probe(self):
 		""" Probe the video device to get height and width info """
 
-		vd = open(self.device_name, 'r')
-		fmt = v4l2.v4l2_format()
-		fmt.type = v4l2.V4L2_BUF_TYPE_VIDEO_CAPTURE
-		ret = fcntl.ioctl(vd, v4l2.VIDIOC_G_FMT, fmt)
-		vd.close()
+		with open(self.device_name, 'r') as vd:
+			fmt = v4l2.v4l2_format()
+			fmt.type = v4l2.V4L2_BUF_TYPE_VIDEO_CAPTURE
+			ret = fcntl.ioctl(vd, v4l2.VIDIOC_G_FMT, fmt)
 		if ret == 0:
 			height = fmt.fmt.pix.height
 			width = fmt.fmt.pix.width
