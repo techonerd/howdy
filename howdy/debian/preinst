@@ -12,13 +12,24 @@ if "upgrade" in sys.argv:
 	try:
 		# Try to copy the new location first
 		if os.path.exists("/etc/howdy/config.ini"):
-			subprocess.call(["cp /etc/howdy/config.ini /tmp/howdy_config_backup_v" + sys.argv[2] + ".ini"], shell=True)
-		# If that does not exist, try copying the old location
+			subprocess.call(
+				[
+					f"cp /etc/howdy/config.ini /tmp/howdy_config_backup_v{sys.argv[2]}.ini"
+				],
+				shell=True,
+			)
 		else:
-			subprocess.call(["cp /lib/security/howdy/config.ini /tmp/howdy_config_backup_v" + sys.argv[2] + ".ini"], shell=True)
+			subprocess.call(
+				[
+					f"cp /lib/security/howdy/config.ini /tmp/howdy_config_backup_v{sys.argv[2]}.ini"
+				],
+				shell=True,
+			)
 
 		# Let the user know so he knows where to look on a failed install
-		print("Backup of Howdy config file created in /tmp/howdy_config_backup_v" + sys.argv[2] + ".ini")
+		print(
+			f"Backup of Howdy config file created in /tmp/howdy_config_backup_v{sys.argv[2]}.ini"
+		)
 	except subprocess.CalledProcessError:
 		print("Could not make an backup of old Howdy config file")
 

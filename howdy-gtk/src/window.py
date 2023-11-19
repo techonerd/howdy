@@ -72,12 +72,9 @@ class MainWindow(gtk.Window):
 	def load_model_list(self):
 		"""(Re)load the model list"""
 
-		# Get username and default to none if there are no models at all yet
-		user = 'none'
-		if self.active_user: user = self.active_user
-
+		user = self.active_user if self.active_user else 'none'
 		# Execute the list command to get the models
-		status, output = subprocess.getstatusoutput(["howdy list --plain -U " + user])
+		status, output = subprocess.getstatusoutput([f"howdy list --plain -U {user}"])
 
 		# Create a datamodel
 		self.listmodel = gtk.ListStore(str, str, str)
@@ -102,7 +99,9 @@ class MainWindow(gtk.Window):
 		except Exception:
 			user = os.environ.get("SUDO_USER")
 
-		status, output = subprocess.getstatusoutput(["sudo -u " + user + " timeout 10 xdg-open " + uri])
+		status, output = subprocess.getstatusoutput(
+			[f"sudo -u {user} timeout 10 xdg-open {uri}"]
+		)
 		return True
 
 	def exit(self, widget, context):

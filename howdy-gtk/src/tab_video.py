@@ -49,8 +49,10 @@ def on_page_switch(self, notebook, page, page_num):
 		config_scaling = (config_height / height) or 1
 
 		self.builder.get_object("videoid").set_text(path.split("/")[-1])
-		self.builder.get_object("videores").set_text(str(int(width)) + "x" + str(int(height)))
-		self.builder.get_object("videoresused").set_text(str(int(width * config_scaling)) + "x" + str(int(height * config_scaling)))
+		self.builder.get_object("videores").set_text(f"{int(width)}x{int(height)}")
+		self.builder.get_object("videoresused").set_text(
+			f"{int(width * config_scaling)}x{int(height * config_scaling)}"
+		)
 		self.builder.get_object("videorecorder").set_text(self.config.get("video", "recording_plugin", fallback=_("Unknown")))
 
 		gobject.timeout_add(10, self.capture_frame)

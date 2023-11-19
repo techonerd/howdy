@@ -126,11 +126,7 @@ class StickyWindow(gtk.Window):
 
 	def catch_stdin(self):
 		"""Catch input from stdin and redraw"""
-		# Wait for a line on stdin
-		comm = sys.stdin.readline()[:-1]
-
-		# If the line is not empty
-		if comm:
+		if comm := sys.stdin.readline()[:-1]:
 			# Parse a message
 			if comm[0] == "M":
 				self.message = comm[2:].strip()

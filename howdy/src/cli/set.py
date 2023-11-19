@@ -29,7 +29,7 @@ found_line = ""
 # Loop through all lines in the config file
 for line in fileinput.input([config_path]):
 	# Save the line if it starts with the requested config option
-	if line.startswith(set_name + " "):
+	if line.startswith(f"{set_name} "):
 		found_line = line
 
 # If we don't have the line it is not in the config file
@@ -39,6 +39,6 @@ if not found_line:
 
 # Go through the file again and update the correct line
 for line in fileinput.input([config_path], inplace=1):
-	print(line.replace(found_line, set_name + " = " + set_value + "\n"), end="")
+	print(line.replace(found_line, f"{set_name} = {set_value}" + "\n"), end="")
 
 print(_("Config option updated"))

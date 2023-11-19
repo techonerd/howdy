@@ -98,6 +98,8 @@ rec_tm = 0
 
 # Wrap everything in an keyboard interrupt handler
 try:
+	# Add the overlay to the frame with some transparency
+	alpha = 0.65
 	while True:
 		frame_tm = time.time()
 
@@ -205,17 +207,16 @@ try:
 						color = (0, 230, 0)
 
 						# Print the name of the model next to the circle
-						circle_text = "{} (certainty: {})".format(models[match_index]["label"], round(match * 10, 3))
+						circle_text = (
+							f'{models[match_index]["label"]} (certainty: {round(match * 10, 3)})'
+						)
 						cv2.putText(overlay, circle_text, (int(x + r / 3), y - r), cv2.FONT_HERSHEY_SIMPLEX, .3, (0, 255, 0), 0, cv2.LINE_AA)
-					# If no approved matches, show red text
 					else:
 						cv2.putText(overlay, "no match", (int(x + r / 3), y - r), cv2.FONT_HERSHEY_SIMPLEX, .3, (0, 0, 255), 0, cv2.LINE_AA)
 
 				# Draw the Circle in green
 				cv2.circle(overlay, (x, y), r, color, 2)
 
-		# Add the overlay to the frame with some transparency
-		alpha = 0.65
 		frame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
 		cv2.addWeighted(overlay, alpha, frame, 1 - alpha, 0, frame)
 
@@ -241,7 +242,6 @@ try:
 			video_capture.internal.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1.0)  # 1 = Manual
 			video_capture.internal.set(cv2.CAP_PROP_EXPOSURE, float(exposure))
 
-# On ctrl+C
 except KeyboardInterrupt:
 	# Let the user know we're stopping
 	print(_("\nClosing window"))

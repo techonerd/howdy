@@ -59,7 +59,7 @@ class ffmpeg_reader:
 		regex = re.compile(r"\s\d{3,4}x\d{3,4}")
 		probe = regex.findall(str(err.decode("utf-8")))
 
-		if not return_code == 1 or len(probe) < 1:
+		if return_code != 1 or len(probe) < 1:
 			# Could not determine the resolution from ffmpeg call. Reverting to ffmpeg.probe()
 			probe = ffmpeg.probe(self.device_path)
 			height = probe["streams"][0]["height"]

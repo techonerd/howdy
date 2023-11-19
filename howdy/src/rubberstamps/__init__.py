@@ -15,17 +15,13 @@ class RubberStamp:
 
 	def set_ui_text(self, text, type=None):
 		"""Convert an ui string to input howdy-gtk understands"""
-		typedec = "M"
-
-		if type == self.UI_SUBTEXT:
-			typedec = "S"
-
-		return self.send_ui_raw(typedec + "=" + text)
+		typedec = "S" if type == self.UI_SUBTEXT else "M"
+		return self.send_ui_raw(f"{typedec}={text}")
 
 	def send_ui_raw(self, command):
 		"""Write raw command to howdy-gtk stdin"""
 		if self.config.getboolean("debug", "verbose_stamps", fallback=False):
-			print("Sending command to howdy-gtk: " + command)
+			print(f"Sending command to howdy-gtk: {command}")
 
 		# Add a newline because the ui reads per line
 		command += " \n"
@@ -49,7 +45,7 @@ def execute(config, gtk_proc, opencv):
 	# Go through each file in the rubberstamp folder
 	for filename in os.listdir(dir_path):
 		# Remove non-readable file or directories
-		if not os.path.isfile(dir_path + "/" + filename):
+		if not os.path.isfile(f"{dir_path}/{filename}"):
 			continue
 
 		# Remove meta files
@@ -88,7 +84,7 @@ def execute(config, gtk_proc, opencv):
 			continue
 
 		# Load the module from file
-		module = SourceFileLoader(type, dir_path + "/" + type + ".py").load_module()
+		module = SourceFileLoader(type, f"{dir_path}/{type}.py").load_module()
 
 		# Try to get the class with the same name
 		try:
@@ -136,7 +132,7 @@ def execute(config, gtk_proc, opencv):
 
 			# Error out if a key has been set that was not declared by the module before
 			if key not in instance.options:
-				print("Unknown config option for rubberstamp " + type + ": " + key)
+				print(f"Unknown config option for rubberstamp {type}: {key}")
 				continue
 
 			# Convert the argument string to an int or float if the declared option has that type
